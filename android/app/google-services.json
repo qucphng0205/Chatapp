@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "255195731757",
+    "firebase_url": "https://chatapp-d62e7.firebaseio.com",
+    "project_id": "chatapp-d62e7",
+    "storage_bucket": "chatapp-d62e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255195731757:android:0ff50db9e87e5954a765a4",
+        "android_client_info": {
+          "package_name": "com.HemmStudio.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255195731757-0519rjd57bg2s1ggjg44cjgbrcittkas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAENlsZy99FMrMTzD-NHukHb6u5Q33WIwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255195731757-0519rjd57bg2s1ggjg44cjgbrcittkas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
