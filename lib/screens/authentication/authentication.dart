@@ -18,9 +18,23 @@ class _AuthenticationState extends State<Authentication> {
 
   @override
   Widget build(BuildContext context) {
-    if (showSignIn)
-      return SignIn(toggleView: toggleView,);
-    else
-      return Register(toggleView: toggleView,);
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text('Chatapp'),
+      ),
+      body: Column(
+        children: <Widget>[
+          RaisedButton(
+            child: Text('Login'),
+            onPressed: () {},
+          ),
+          RaisedButton(
+            onPressed: () {},
+            child: Text('Signup'),
+          ),
+        ],
+      ),
+    );
   }
 }

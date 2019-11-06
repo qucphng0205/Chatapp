@@ -22,6 +22,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -49,7 +50,11 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               SizedBox(height: 20),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter your email' : null,
+                // validator: (val) => val.isEmpty ? 'Enter your email' : null,
+                decoration: InputDecoration(
+                  hintText: 'Enter your email',
+                  border: OutlineInputBorder(),
+                ),
                 onChanged: (val) {
                   setState(() {
                     email = val;
@@ -61,13 +66,17 @@ class _RegisterState extends State<Register> {
                 validator: (val) => val.length < 6
                     ? 'Enter a password more than 5 characters'
                     : null,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter your password',
+                ),
                 onChanged: (val) {
                   setState(() {
                     password = val;
                   });
                 },
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 60),
               RaisedButton(
                 color: Colors.pink[400],
                 child: Text(

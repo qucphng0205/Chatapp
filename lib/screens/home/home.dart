@@ -1,5 +1,6 @@
-import 'package:chatapp/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:chatapp/services/auth.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,9 +9,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+  final Firestore _firestore = Firestore.instance;
+
+  TextEditingController messageController = TextEditingController();
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(  
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
         title: Text('Chatapp'),
