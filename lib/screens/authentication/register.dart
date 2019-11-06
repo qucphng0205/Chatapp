@@ -2,9 +2,11 @@ import 'package:chatapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
+  static const String id = 'RegisterID';
 
-  Register({@required this.toggleView});
+  // final Function toggleView;
+
+  Register();
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -38,7 +40,7 @@ class _RegisterState extends State<Register> {
               'Signin',
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => widget.toggleView(),
+            onPressed: () {}//=> widget.toggleView(),
           )
         ],
       ),

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:chatapp/services/auth.dart';
 
 class Home extends StatefulWidget {
+  static const String id = 'HOMEID';
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
   final AuthService _auth = AuthService();
   final Firestore _firestore = Firestore.instance;
 

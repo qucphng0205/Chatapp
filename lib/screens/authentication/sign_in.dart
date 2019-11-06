@@ -2,9 +2,10 @@ import 'package:chatapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
+  static const String id = 'SignInID';
+  // final Function toggleView;
 
-  SignIn({@required this.toggleView});
+  // SignIn({@required this.toggleView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -37,8 +38,8 @@ class _SignInState extends State<SignIn> {
               "Register",
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => widget.toggleView(),
-          )
+            onPressed: () {}, //=> widget.toggleView(),
+          ),
         ],
       ),
       body: Container(
