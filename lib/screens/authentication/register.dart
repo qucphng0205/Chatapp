@@ -25,24 +25,9 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
         elevation: 0.0,
         title: Text("Register to Chatapp"),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: Text(
-              'Signin',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {}//=> widget.toggleView(),
-          )
-        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -79,20 +64,25 @@ class _RegisterState extends State<Register> {
                 },
               ),
               SizedBox(height: 60),
-              RaisedButton(
-                color: Colors.pink[400],
-                child: Text(
-                  'Register',
-                  style: TextStyle(color: Colors.white),
+              ButtonTheme(
+                minWidth: 200.0,
+                height: 55.0,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Text(
+                    'Signup',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      dynamic result =
+                          await _auth.registerWithEmail(email, password);
+                      if (result == null)
+                        setState(() => error = 'Email is invalid');
+                    }
+                  },
                 ),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    dynamic result =
-                        await _auth.registerWithEmail(email, password);
-                    if (result == null)
-                      setState(() => error = 'Email is invalid');
-                  }
-                },
               ),
               SizedBox(height: 13),
               Text(

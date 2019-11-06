@@ -1,47 +1,66 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chatapp/screens/authentication/register.dart';
+import 'package:chatapp/screens/authentication/sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:chatapp/services/auth.dart';
 
 class Home extends StatefulWidget {
-  static const String id = 'HOMEID';
-
+  static const String id = 'HomeID';
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  bool showSignIn = true;
 
-  final AuthService _auth = AuthService();
-  final Firestore _firestore = Firestore.instance;
-
-  TextEditingController messageController = TextEditingController();
-  ScrollController scrollController = ScrollController();
+  void toggleView() {
+    setState(() {
+      showSignIn = !showSignIn;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(  
-      backgroundColor: Colors.brown[50],
+    return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('Chatapp'),
-        backgroundColor: Colors.brown[400],
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: Text(
-              "Logout",
-              style: TextStyle(
-                color: Colors.white,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ButtonTheme(
+              minWidth: 200.0,
+              height: 55.0,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(SignIn.id);
+                },
               ),
             ),
-            onPressed: () {
-              _auth.signOut();
-            },
-          )
-        ],
+            SizedBox(height: 20),
+            ButtonTheme(
+              minWidth: 200.0,
+              height: 55.0,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Text(
+                  'Signup',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(Register.id);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
