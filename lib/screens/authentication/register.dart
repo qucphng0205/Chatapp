@@ -1,3 +1,4 @@
+import 'package:chatapp/screens/chat_screen.dart';
 import 'package:chatapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,6 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
         title: Text("Register to Chatapp"),
@@ -35,7 +35,17 @@ class _RegisterState extends State<Register> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20),
+              Expanded(
+                child: Hero(
+                  tag: 'uitLogo',
+                  child: Container(
+                    child: Image.asset(
+                      "assets/images/uit.png",
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
               TextFormField(
                 // validator: (val) => val.isEmpty ? 'Enter your email' : null,
                 decoration: InputDecoration(
@@ -48,7 +58,7 @@ class _RegisterState extends State<Register> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               TextFormField(
                 validator: (val) => val.length < 6
                     ? 'Enter a password more than 5 characters'
@@ -63,7 +73,7 @@ class _RegisterState extends State<Register> {
                   });
                 },
               ),
-              SizedBox(height: 60),
+              SizedBox(height: 20),
               ButtonTheme(
                 minWidth: 200.0,
                 height: 55.0,
@@ -79,7 +89,9 @@ class _RegisterState extends State<Register> {
                       dynamic result =
                           await _auth.registerWithEmail(email, password);
                       if (result == null)
-                        setState(() => error = 'Email is invalid');
+                        setState(() => error = 'Email is invalid or already used');
+                      else
+                        Navigator.of(context).pushNamed(ChatScreen.id);
                     }
                   },
                 ),

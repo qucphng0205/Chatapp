@@ -1,3 +1,4 @@
+import 'package:chatapp/screens/chat_screen.dart';
 import 'package:chatapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,17 @@ class _SignInState extends State<SignIn> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20),
+              Expanded(
+                child: Hero(
+                  tag: 'uitLogo',
+                  child: Container(
+                    child: Image.asset(
+                      "assets/images/uit.png",
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
               TextFormField(
                 decoration: InputDecoration(hintText: 'Enter your email'),
                 // validator: (val) => val.isEmpty ? 'Enter your email' : null,
@@ -43,7 +54,7 @@ class _SignInState extends State<SignIn> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               TextFormField(
                 decoration: InputDecoration(hintText: 'Enter your password'),
                 validator: (val) => val.length < 6
@@ -55,7 +66,7 @@ class _SignInState extends State<SignIn> {
                   });
                 },
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               ButtonTheme(
                 minWidth: 200.0,
                 height: 55.0,
@@ -74,11 +85,13 @@ class _SignInState extends State<SignIn> {
                         setState(() {
                           error = 'Email or password is incorrect';
                         });
+                      else
+                        Navigator.of(context).pushNamed(ChatScreen.id);
                     }
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Text(
                 error,
                 style: TextStyle(color: Colors.red, fontSize: 13),
