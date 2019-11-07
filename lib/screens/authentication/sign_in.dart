@@ -66,7 +66,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 15),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Enter your email'),
+                decoration: InputDecoration(hintText: 'Enter your email', labelText: 'Email'),
                 // validator: (val) => val.isEmpty ? 'Enter your email' : null,
                 onChanged: (val) {
                   setState(() {
@@ -76,7 +76,8 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 15),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Enter your password'),
+                obscureText: true,
+                decoration: InputDecoration(hintText: 'Enter your password', labelText: 'Password'),
                 validator: (val) => val.length < 6
                     ? 'Enter a password more than 5 characters'
                     : null,
