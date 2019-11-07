@@ -57,4 +57,8 @@ class AuthService {
   String getEmail() {
     return user.email;
   }
+
+  void setupUser(FirebaseUser firebaseUser) {
+    user = firebaseUser;
+  }
 }

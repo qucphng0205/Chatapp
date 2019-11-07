@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.dark(),
+        home: Register(),
         initialRoute: Home.id,
         routes: {
           Home.id: (context) => Home(),

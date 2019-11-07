@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:chatapp/services/auth.dart';
 import 'package:chatapp/widgets/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -31,6 +33,23 @@ class _ChatScreenState extends State<ChatScreen> {
         'type': 0,
       });
     }
+    setState(() {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 400),
+      );
+    });
+  }
+
+  Future<void> sendImage(String url) async {
+    messageController.clear();
+    await _fireStore.collection('publicMessages').add({
+      'content': url,
+      'from': widget.authService.getEmail(),
+      'date': DateTime.now().toIso8601String().toString(),
+      'type': 1,
+    });
 
     setState(() {
       scrollController.animateTo(
@@ -43,6 +62,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    uploadFile(image);
+  }
+
+  Future uploadFile(File image) async {
+    String imageUrl;
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = reference.putFile(image);
+    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
+    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+      imageUrl = downloadUrl;
+      setState(() {
+        sendImage(imageUrl);
+      });
+    }, onError: (err) {
+      setState(() {});
+      Fluttertoast.showToast(msg: 'This file is not an image');
+    });
   }
 
   TextEditingController messageController = TextEditingController();
@@ -105,10 +142,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   List<DocumentSnapshot> docs = snapshot.data.documents;
                   List<Widget> messages = docs.map((doc) {
                     return Message(
-                        from: doc.data['from'],
-                        content: doc.data['content'],
-                        myMessage:
-                            widget.authService.getEmail() == doc.data['from']);
+                      from: doc.data['from'],
+                      content: doc.data['content'],
+                      myMessage:
+                          widget.authService.getEmail() == doc.data['from'],
+                      type: int.parse(doc.data['type'].toString()),
+                    );
                   }).toList();
                   return ListView(
                       controller: scrollController,

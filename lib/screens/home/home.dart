@@ -1,6 +1,10 @@
 import 'package:chatapp/screens/authentication/register.dart';
 import 'package:chatapp/screens/authentication/sign_in.dart';
+import 'package:chatapp/screens/chat_screen.dart';
+import 'package:chatapp/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   static const String id = 'HomeID';
@@ -9,14 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool showSignIn = true;
-
-  void toggleView() {
-    setState(() {
-      showSignIn = !showSignIn;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +30,9 @@ class _HomeState extends State<Home> {
                   child: Image.asset('assets/images/uit.png'),
                 ),
               ),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'UIT Chatapp',
                 style: TextStyle(fontSize: 30),
@@ -55,6 +53,19 @@ class _HomeState extends State<Home> {
                 style: TextStyle(fontSize: 20.0),
               ),
               onPressed: () {
+                FirebaseUser user = Provider.of<FirebaseUser>(context);
+                if (user != null) {
+                  AuthService _auth = AuthService();
+                  _auth.setupUser(user);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatScreen(
+                        authService: _auth,
+                      ),
+                    ),
+                  );
+                } else 
                 Navigator.of(context).pushNamed(SignIn.id);
               },
             ),
