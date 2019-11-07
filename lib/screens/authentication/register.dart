@@ -22,6 +22,24 @@ class _RegisterState extends State<Register> {
 
   var _formKey = GlobalKey<FormState>();
 
+  Future<void> signupUser() async {
+    if (_formKey.currentState.validate()) {
+      dynamic result = await _auth.registerWithEmail(email, password);
+      if (result == null)
+        setState(() => error = 'Email is invalid or already used');
+      else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              authService: _auth,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,16 +102,7 @@ class _RegisterState extends State<Register> {
                     'Signup',
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      dynamic result =
-                          await _auth.registerWithEmail(email, password);
-                      if (result == null)
-                        setState(() => error = 'Email is invalid or already used');
-                      else
-                        Navigator.of(context).pushNamed(ChatScreen.id);
-                    }
-                  },
+                  onPressed: signupUser,
                 ),
               ),
               SizedBox(height: 13),

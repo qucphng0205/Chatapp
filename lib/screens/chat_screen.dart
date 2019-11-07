@@ -1,41 +1,68 @@
+import 'dart:io';
+
 import 'package:chatapp/services/auth.dart';
 import 'package:chatapp/widgets/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
+  final AuthService authService;
+
+  ChatScreen({this.authService});
+
   static const String id = 'ChatID';
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final AuthService _auth = AuthService();
   final Firestore _fireStore = Firestore.instance;
 
   Future<void> sendMessage() async {
     print(messageController.text.length);
     if (messageController.text.length > 0) {
-      await _fireStore.collection('message').add({
-        'content': messageController.text,
-        'from': _auth.getEmail(),
+      String sendText = messageController.text;
+      messageController.clear();
+      await _fireStore.collection('publicMessages').add({
+        'content': sendText,
+        'from': widget.authService.getEmail(),
         'date': DateTime.now().toIso8601String().toString(),
+        'type': 0,
       });
     }
-    messageController.clear();
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 400),
-    );
-    setState(() {});
+
+    setState(() {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 400),
+      );
+    });
+  }
+
+  Future getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
   }
 
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
 
+  // @override
+  // void didUpdateWidget(ChatScreen oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   scrollController.animateTo(
+  //     scrollController.position.maxScrollExtent,
+  //     curve: Curves.easeOut,
+  //     duration: const Duration(milliseconds: 400),
+  //   );
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
+    print("???");
     return Scaffold(
       appBar: AppBar(
         leading: Hero(
@@ -53,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
-              _auth.signOut();
+              widget.authService.signOut();
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
           )
@@ -80,14 +107,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     return Message(
                         from: doc.data['from'],
                         content: doc.data['content'],
-                        myMessage: _auth.getEmail() == doc.data['from']);
+                        myMessage:
+                            widget.authService.getEmail() == doc.data['from']);
                   }).toList();
                   return ListView(
-                    controller: scrollController,
-                    children: <Widget>[
-                      ...messages,
-                    ],
-                  );
+                      controller: scrollController,
+                      children: <Widget>[
+                        ...messages,
+                      ]);
                 }),
           ),
           SizedBox(
@@ -96,6 +123,12 @@ class _ChatScreenState extends State<ChatScreen> {
           Container(
             child: Row(
               children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.image),
+                  onPressed: () {
+                    getImage();
+                  },
+                ),
                 Expanded(
                   child: TextField(
                     controller: messageController,

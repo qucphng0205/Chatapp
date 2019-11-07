@@ -1,3 +1,5 @@
 cloud_firestore=C:\\Program Files\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\cloud_firestore-0.12.9+6\\
 firebase_auth=C:\\Program Files\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-0.14.0+5\\
 firebase_core=C:\\Program Files\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.4.0+9\\
+firebase_storage=C:\\Program Files\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_storage-3.0.6\\
+image_picker=C:\\Program Files\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker-0.4.12+1\\

@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class Message extends StatelessWidget {
   final String from;
   final String content;
+  final int type;
 
   final bool myMessage;
 
   Message(
-      {@required this.from, @required this.content, @required this.myMessage});
+      {@required this.from,
+      @required this.content,
+      @required this.myMessage,
+      this.type = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class Message extends StatelessWidget {
       children: <Widget>[
         Text(from),
         Material(
-          color: myMessage ? Colors.blue : Colors.white,
+          color: myMessage ? Colors.blue : Colors.grey,
           borderRadius: BorderRadius.circular(10.0),
           elevation: 6.0,
           child: Container(

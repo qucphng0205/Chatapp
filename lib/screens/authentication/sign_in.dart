@@ -21,6 +21,26 @@ class _SignInState extends State<SignIn> {
 
   var _formKey = GlobalKey<FormState>();
 
+  Future<void> loginUser() async {
+    if (_formKey.currentState.validate()) {
+      dynamic result = await _auth.signInWithEmail(email, password);
+      if (result == null)
+        setState(() {
+          error = 'Email or password is incorrect';
+        });
+      else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              authService: _auth,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,18 +97,7 @@ class _SignInState extends State<SignIn> {
                     'Login',
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      dynamic result =
-                          await _auth.signInWithEmail(email, password);
-                      if (result == null)
-                        setState(() {
-                          error = 'Email or password is incorrect';
-                        });
-                      else
-                        Navigator.of(context).pushNamed(ChatScreen.id);
-                    }
-                  },
+                  onPressed: loginUser,
                 ),
               ),
               SizedBox(height: 10),
